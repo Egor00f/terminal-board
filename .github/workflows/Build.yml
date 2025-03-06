@@ -18,10 +18,10 @@ jobs:
       run: sudo apt install kos-newlib
 
     - name: Build
-      run: make TermBuild
+      run: make TermBoard
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: build
-        path: TermBuild
+        path: TermBoard
