@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "Build",
+			"detail": "Build",
+			"command": "make -C ${workspaceFolder} TermBoard && exit",
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"type": "shell",
+			"label": "Clean",
+			"detail": "Clean build",
+			"command": "make -C ${workspaceFolder} clean && exit",
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
+		},
+		
+	],
+	"windows": {
+		"options": {
+			"shell": {
+				"executable": "cmd",
+				"args": [
+					"/k",
+				],
+			},
+		}
+	}
+}

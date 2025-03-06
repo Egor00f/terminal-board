@@ -1,0 +1,50 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/../kolibrios/contrib/sdk/sources/newlib/libc/include"
+            ],
+            "defines": [
+            ],
+            "compilerArgs": [
+                "-Wall",
+                "-Wextra",
+                "-fno-ident",
+                "-fomit-frame-pointer",
+                "-U__WIN32__",
+                "-U_Win32",
+                "-U_WIN32",
+                "-U__MINGW32__",
+                "-UWIN32"
+            ],
+            "cStandard": "gnu99",
+            "cppStandard": "gnu++11",
+            "compilerPath": "C:/MinGW/msys/1.0/home/autobuild/tools/win32/bin/kos32-gcc.exe",
+            "intelliSenseMode": "gcc-x86"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/../kolibrios/contrib/sdk/sources/newlib/libc/include"
+            ],
+            "compilerArgs": [
+                "-Wall",
+                "-Wextra",
+                "-fno-ident",
+                "-fomit-frame-pointer",
+                "-U__WIN32__",
+                "-U_Win32",
+                "-U_WIN32",
+                "-U__MINGW32__",
+                "-UWIN32"
+            ],
+            "cStandard": "gnu99",
+            "cppStandard": "gnu++11",
+            "compilerPath": "/home/autobuild/tools/win32/bin/kos32-gcc"
+        }
+    ],
+    "version": 4
+}
