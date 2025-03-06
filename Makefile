@@ -37,7 +37,7 @@ $(EXE): $(ALL_O)
 	$(STRIP) -S $@
 	$(OBJCOPY) $@ -O binary
 
-src/main.o: src/main.c src/console.h
+src/main.o: src/main.c
 
 clean:
 	rm -f $(ALL_O) $(EXE)

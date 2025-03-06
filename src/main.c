@@ -2,7 +2,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/ksys.h>
-//#include "console.h"
 
 const char* LogFile = "/tmp0/1/Board.log";
 
@@ -56,9 +55,7 @@ int main()
     f = fopen(LogFile, "w");
 
     while(true)
-    {
-        //_ksys_delay(1);
-        
+    {        
         char byte = debug_readc();
         if(byte)
         {
@@ -88,13 +85,10 @@ int main()
         else
         {
             nothing = true;
+            _ksys_delay(10);
         }
 
         _ksys_thread_yield();
-        /*if(con_get_flags() & 0x200)
-        {
-            break;
-        }*/
     }
 
     fclose(f);
