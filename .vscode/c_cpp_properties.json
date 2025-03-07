@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/src",
-                "${workspaceFolder}/../kolibrios/contrib/sdk/sources/newlib/libc/include"
+                "${workspaceFolder}/../kolibrios/contrib/sdk/sources/newlib/libc/include",
+                "${workspaceFolder}/../kolibrios/contrib/C_Layer/INCLUDE"
             ],
             "defines": [
             ],
@@ -19,7 +20,7 @@
                 "-U__MINGW32__",
                 "-UWIN32"
             ],
-            "cStandard": "gnu99",
+            "cStandard": "gnu11",
             "cppStandard": "gnu++11",
             "compilerPath": "C:/MinGW/msys/1.0/home/autobuild/tools/win32/bin/kos32-gcc.exe",
             "intelliSenseMode": "gcc-x86"
@@ -28,7 +29,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/src",
-                "${workspaceFolder}/../kolibrios/contrib/sdk/sources/newlib/libc/include"
+                "/home/autobuild/tools/win32/include",
+                "${workspaceFolder}/../kolibrios/contrib/C_Layer/INCLUDE"
             ],
             "compilerArgs": [
                 "-Wall",
@@ -41,7 +43,7 @@
                 "-U__MINGW32__",
                 "-UWIN32"
             ],
-            "cStandard": "gnu99",
+            "cStandard": "gnu11",
             "cppStandard": "gnu++11",
             "compilerPath": "/home/autobuild/tools/win32/bin/kos32-gcc"
         }

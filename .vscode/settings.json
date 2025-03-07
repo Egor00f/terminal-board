@@ -14,12 +14,19 @@
         "systemcolors.h": "c",
         "stdlib.h": "c",
         "conio.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "ansi.h": "c",
+        "_ansi.h": "c"
     },
     "editor.formatOnSave": false,
     "cSpell.enabled": true,
     "cSpell.words": [
         "KolibriOS",
         "ksys",
-    ]
+    ],
+
+    "C_Cpp.formatting": "vcFormat",
+    "C_Cpp.vcFormat.space.beforeComma": false,
+    "C_Cpp.vcFormat.newLine.beforeElse": true
+
 }
