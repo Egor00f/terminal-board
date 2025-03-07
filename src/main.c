@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <sys/ksys.h>
 #include <kolibri_libini.h>
-
-const char* LogFile = "/tmp0/1/Board.log";
-const char* SettingFile = "/tmp0/1/Board.ini";
 
 char debug_readc()
 {
@@ -37,7 +35,7 @@ void debug_reads(char* s, size_t len)
 
 inline char GetColorCode(const char* name)
 {
-    char code;
+    char code = '\0';
 
     if (strcmp(name, "Black"))
     {
@@ -75,6 +73,16 @@ inline char GetColorCode(const char* name)
     return code;
 }
 
+#define COLOR_NAME_LEN 16
+
+const char* LogFile = "/tmp0/1/Board.log";
+const char* SettingFile = "/tmp0/1/Board.ini";
+
+const char DefaultNormalChars[COLOR_NAME_LEN] = "White";
+const char DefaultNormalBackgorund[COLOR_NAME_LEN] = "Black";
+const char DefaultKernelChars[COLOR_NAME_LEN] = "Purple";
+const char DefaultKernelBackgorund[COLOR_NAME_LEN] = "Black";
+
 char line[4096];    // current line
 size_t i = 0;
 FILE* f;
@@ -86,16 +94,18 @@ void LoadSetting()
 {
     printf("LoadSettings\n");
 
-    char NormalChars = GetColorCode(LIBINI_get_str(SettingFile, "Normal", "Chars", 16, "White"));
-    char NormalBackground = GetColorCode(LIBINI_get_str(SettingFile, "Normal", "Background", 16, "Black"));
+    char Chars[COLOR_NAME_LEN];
+    char Background[COLOR_NAME_LEN];
 
-    char KernelChars = GetColorCode(LIBINI_get_str(SettingFile, "Kernel", "Chars", 16, "Purple"));
-    char KernelBackground = GetColorCode(LIBINI_get_str(SettingFile, "Kernel", "Background", 16, "Black"));
+    LIBINI_get_str(SettingFile, "Normal", "Chars", Chars, COLOR_NAME_LEN, DefaultNormalChars);
+    LIBINI_get_str(SettingFile, "Normal", "Background", Background, COLOR_NAME_LEN, DefaultNormalBackgorund);
 
-    sprintf(Kernel, "\033[%c;%cm", KernelChars, KernelBackground);
-    sprintf(Normal, "\033[%c;%cm", NormalChars, NormalBackground);
+    sprintf(Normal, "\033[3%c;4%cm", GetColorCode(Chars), GetColorCode(Background));
 
-    fputs(Normal, stdout);
+    LIBINI_get_str(SettingFile, "Kernel", "Chars", Chars, COLOR_NAME_LEN, DefaultNormalChars);
+    LIBINI_get_str(SettingFile, "Kernel", "Background", Background, COLOR_NAME_LEN, DefaultNormalBackgorund);
+
+    sprintf(Kernel, "\033[3%c;4%cm", GetColorCode(Chars), GetColorCode(Background));
 }
 
 void print()
@@ -116,7 +126,11 @@ void print()
 
 int main()
 {
-    bool nothing = false;
+    if (kolibri_libini_init())
+    {
+        _ksys_debug_puts("Failed load libini\n");
+        exit(1);
+    }
 
     memset(line, 0, 4096);
 
@@ -129,15 +143,17 @@ int main()
 
         printf("Create settings file\n");
 
-        LIBINI_set_str(SettingFile, "Normal", "Chars", 16, "White");
-        LIBINI_set_str(SettingFile, "Normal", "Background", 16, "Black");
-        LIBINI_set_str(SettingFile, "Kernel", "Chars", 16, "Purple");
-        LIBINI_set_str(SettingFile, "Kernel", "Background", 16, "White");
+        LIBINI_set_str(SettingFile, "Normal", "Chars", DefaultNormalChars, COLOR_NAME_LEN);
+        LIBINI_set_str(SettingFile, "Normal", "Background", DefaultNormalBackgorund, COLOR_NAME_LEN);
+        LIBINI_set_str(SettingFile, "Kernel", "Chars", DefaultKernelChars, COLOR_NAME_LEN);
+        LIBINI_set_str(SettingFile, "Kernel", "Background", DefaultKernelBackgorund, COLOR_NAME_LEN);
     }
 
     LoadSetting();
 
     f = fopen(LogFile, "w");
+
+    fputs(Normal, stdout);
 
     while (true)
     {
@@ -148,21 +164,12 @@ int main()
             i++;
 
             if (byte == '\n')
-            {
                 print();
-            }
-        }
-        else if (nothing)
-        {
-            print();
         }
         else
         {
-            nothing = true;
-            _ksys_delay(10);
+            _ksys_thread_yield();
         }
-
-        _ksys_thread_yield();
     }
 
     fclose(f);

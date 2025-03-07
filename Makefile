@@ -6,7 +6,7 @@ STRIP	= kos32-strip
 OBJCOPY	= kos32-objcopy
 FASM	= fasm
 STD	= -std=gnu11
-CFLAGS	= $(SYSCFLAGS) $(STD) -O2 $(MYCFLAGS)
+CFLAGS	= $(SYSCFLAGS) $(STD) -O2 -Wall -Wextra $(MYCFLAGS)
 LDFLAGS	= $(SYSLDFLAGS) $(MYLDFLAGS)
 LIBS	= $(SYSLIBS) $(MYLIBS)
 MYCFLAGS	= 
